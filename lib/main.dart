@@ -60,6 +60,7 @@ class _MyAppState extends State<MyApp> {
       final winner = _finaWinner();
       if(winner != TileState.empty){
         print("Winner is: $winner");
+        _showWinnerDialog(winner);
       }
     }
 
@@ -95,6 +96,22 @@ class _MyAppState extends State<MyApp> {
   }
   return winner;
   }
+
+  _showWinnerDialog(TileState tileState){
+    showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text("Winner", style: TextStyle(fontSize: 30),),
+            content: Image.asset(
+              (tileState == TileState.cross? 'images/x.png' :'images/o.png')),
+            actions: [
+              TextButton(onPressed: (){}, child: Text("Restart")),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return  SafeArea(
