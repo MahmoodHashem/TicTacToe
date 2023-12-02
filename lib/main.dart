@@ -57,8 +57,43 @@ class _MyAppState extends State<MyApp> {
         _boardState[index] = _currentTurn;
         _currentTurn = _currentTurn == TileState.cross ? TileState.circle: TileState.cross;
       });
+      final winner = _finaWinner();
+      if(winner != TileState.empty){
+        print("Winner is: $winner");
+      }
     }
 
+  }
+
+  TileState _finaWinner(){
+    winnerForMatch(a,b,c){
+      if(_boardState[a] != TileState.empty){
+        if((_boardState[a] == _boardState[b]) &&
+            (_boardState[b] == _boardState[c])){
+          return _boardState[a];
+        }
+      }
+      return TileState.empty;
+    }
+
+    final checks = [
+      winnerForMatch(0, 1, 2),
+      winnerForMatch(3, 4, 5),
+      winnerForMatch(6, 7, 8),
+      winnerForMatch(0, 3, 6),
+      winnerForMatch(1, 4, 7),
+      winnerForMatch(2, 5, 8),
+      winnerForMatch(0, 4, 8),
+       winnerForMatch(2,4, 6),
+    ];
+  TileState winner = TileState.empty;
+  for(int i = 0; i < checks.length; i++){
+    if(checks[i] != TileState.empty){
+      winner = checks[i];
+      break;
+    }
+  }
+  return winner;
   }
   @override
   Widget build(BuildContext context) {
