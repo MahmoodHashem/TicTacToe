@@ -18,6 +18,8 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   final  _boardState = List.filled(9, TileState.empty);
 
+    var _currentTurn = TileState.cross;
+
   Widget buildBoard(){
     return Builder(builder: (context){
       double boardDimension = MediaQuery.sizeOf(context).width / 3;
@@ -52,7 +54,8 @@ class _MyAppState extends State<MyApp> {
 
     if(_boardState[index] == TileState.empty){
       setState(() {
-        _boardState[index] = TileState.cross; 
+        _boardState[index] = _currentTurn;
+        _currentTurn = _currentTurn == TileState.cross ? TileState.circle: TileState.cross;
       });
     }
 
