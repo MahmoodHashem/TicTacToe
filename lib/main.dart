@@ -16,7 +16,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  final  _boardState = List.filled(9, TileState.empty);
+    var  _boardState = List.filled(9, TileState.empty);
 
     var _currentTurn = TileState.cross;
 
@@ -106,10 +106,21 @@ class _MyAppState extends State<MyApp> {
             content: Image.asset(
               (tileState == TileState.cross? 'images/x.png' :'images/o.png')),
             actions: [
-              TextButton(onPressed: (){}, child: Text("Restart")),
+              TextButton(onPressed: (){
+                _resetGame();
+                Navigator.pop(context);
+              }, child: Text("Restart")),
             ],
           );
         });
+  }
+
+  _resetGame(){
+    setState(() {
+      _boardState = List.filled(9, TileState.empty);
+      _currentTurn = TileState.cross;
+    });
+
   }
 
   @override
