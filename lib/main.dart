@@ -8,43 +8,57 @@ void main() {
       home:MyApp()));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   MyApp({Key? key}) : super(key: key);
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final  _boardState = List.filled(9, TileState.empty);
 
-  @override
-  Widget build(BuildContext context) {
+  Widget buildBoard(){
+    return Builder(builder: (context){
+      double boardDimension = MediaQuery.sizeOf(context).width / 3;
 
-    Widget buildBoard(){
-      return Builder(builder: (context){
-        double boardDimension = MediaQuery.sizeOf(context).width / 3;
+      return Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: chunk(_boardState, 3).asMap().entries.map((entry) {
 
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: chunk(_boardState, 3).asMap().entries.map((entry) {
+          final chunkIndex = entry.key;
+          final tileStateChunk = entry.value;
 
-            final chunkIndex = entry.key;
-            final tileStateChunk = entry.value;
+          return Row(
+              children: tileStateChunk.asMap().entries.map((innerEntry) {
+                final innerIndex = innerEntry.key;
+                final tileState = innerEntry.value;
+                final tileIndex = (chunkIndex * 3 ) + innerIndex;
 
-            return Row(
-                children: tileStateChunk.asMap().entries.map((innerEntry) {
-                  final innerIndex = innerEntry.key;
-                  final tileState = innerEntry.value;
-                  final tileIndex = (chunkIndex * 3 ) + innerIndex;
+                return BoardTile(
+                  boardSize: boardDimension,
+                  state: tileState,
+                  onPress: () => _updateTileStateIndex(tileIndex),
+                );
+              }).toList()
+          );
 
-                  return BoardTile(
-                    boardSize: boardDimension,
-                    state: tileState,
-                  );
-                }).toList()
-            );
+        }).toList(),
+      );
+    });
+  }
 
-          }).toList(),
-        );
+  _updateTileStateIndex(int index){
+
+    if(_boardState[index] == TileState.empty){
+      setState(() {
+        _boardState[index] = TileState.cross; 
       });
     }
 
+  }
+  @override
+  Widget build(BuildContext context) {
     return  SafeArea(
       child: Scaffold(
           body:Center(

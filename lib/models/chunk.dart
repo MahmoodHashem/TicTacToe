@@ -1,6 +1,6 @@
 
 import 'dart:math';
-import 'package:tictactoe/enums.dart';
+import 'package:tictactoegame/enums.dart';
 
 List<List<TileState>> chunk( List<TileState> list, int size){
   return List.generate(

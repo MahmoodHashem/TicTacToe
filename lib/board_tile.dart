@@ -19,9 +19,7 @@ class BoardTile extends StatelessWidget {
       width: boardSize,
       height: boardSize,
       child: MaterialButton(
-          onPressed: (){
-            print("tapped");
-          },
+          onPressed: onPress,
           child: _widgetForTileState()
       ),
     );
